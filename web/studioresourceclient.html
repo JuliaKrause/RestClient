@@ -10,6 +10,9 @@
                 url: "http://localhost:8080/MovieServiceWebApp_war_exploded/resources/studio/" + studioId,
                 type: "GET",
                 dataType: "json",
+                headers: {
+                    Authorization: "Basic" + btoa("reader:123")
+                },
                 success: function (data) {
                     alert("Studio: " + data['name'] + ", Countrycode: " + data['countrycode'] + ", Postcode: " + data['postcode']);
                 },
@@ -25,6 +28,9 @@
                 url: "http://localhost:8080/MovieServiceWebApp_war_exploded/resources/studio",
                 type: "GET",
                 dataType: "json",
+                headers: {
+                    Authorization: "Basic" + btoa("reader:123")
+                },
                 success: function (studioList) {
                     var html = "";
                     studioList.forEach(function (studio) {
