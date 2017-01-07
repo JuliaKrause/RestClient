@@ -62,6 +62,7 @@ public class ActorResourceClient {
     public static void main(String[] args) throws Exception {
         WebTarget target = ClientBuilder
                 .newClient()
+                .register(new RequestFilter("writer", "123"))
                 .target("http://localhost:8080/MovieServiceWebApp_war_exploded/resources/actor");
 
         Boolean beenden = false;

@@ -20,7 +20,7 @@ public class RequestFilter implements ClientRequestFilter {
     @Override
     public void filter(ClientRequestContext request) throws IOException {
         String token = username + ":" + password;
-        String basicAuthentication = "Basic" + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
+        String basicAuthentication = "Basic " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
         request.getHeaders().add("Authorization", basicAuthentication);
     }
 }

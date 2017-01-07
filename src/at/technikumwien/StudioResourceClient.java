@@ -2,6 +2,7 @@ package at.technikumwien;
 
 import at.technikumwien.generated.Studio;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -30,12 +31,12 @@ public class StudioResourceClient {
                 .resolveTemplate("studioId", studioId)
                 .request(MediaType.APPLICATION_JSON)
                 .get(Studio.class);
-
+        //Response response = target.request().get();
+        //response.close();
         return studio;
 
     }
 
-    //TODO: irgendwie aussagekräftige Response kriegen
     private static void updateStudio(WebTarget target, Studio studio, Long studioId) {
         Response updResponse = target
                 .path("/{studioId}")
@@ -43,23 +44,25 @@ public class StudioResourceClient {
                 .request(MediaType.APPLICATION_JSON)
                 .put(Entity.json(studio));
         System.out.println(updResponse);
+        updResponse.close();
     }
 
     //of course, this returns null!
-    private static Studio deleteStudio(WebTarget target, Long studioId) {
+    private static void deleteStudio(WebTarget target, Long studioId) {
         Studio studioDeleted = target
                 .path("/{studioId}")
                 .resolveTemplate("studioId", studioId)
                 .request(MediaType.APPLICATION_JSON)
                 .delete(Studio.class);
-        return studioDeleted;
     }
 
 
 
     public static void main(String[] args) throws Exception {
+
         WebTarget target = ClientBuilder
                 .newClient()
+                .register(new RequestFilter("writer", "123"))
                 .target("http://localhost:8080/MovieServiceWebApp_war_exploded/resources/studio");
 
         Boolean beenden = false;
@@ -100,6 +103,7 @@ public class StudioResourceClient {
                     newStudio.setPostcode(newStudioPC);
                     Response createResponse = createStudio(target, newStudio);
                     System.out.println(createResponse.getLocation());
+                    createResponse.close();
                     break;
                 case "3":
                     Studio updStudio = new Studio();
@@ -119,8 +123,7 @@ public class StudioResourceClient {
                 case "4":
                     System.out.println("Studio ID: ");
                     String delStudioID = user_input.next();
-                    Studio delStudio = deleteStudio(target, new Long(delStudioID));
-                    System.out.println(delStudio);
+                    deleteStudio(target, new Long(delStudioID));
                     break;
                 case "5":
                     beenden = true;

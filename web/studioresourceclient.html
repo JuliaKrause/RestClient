@@ -11,7 +11,7 @@
                 type: "GET",
                 dataType: "json",
                 headers: {
-                    Authorization: "Basic" + btoa("reader:123")
+                    Authorization: "Basic " + btoa("reader:123")
                 },
                 success: function (data) {
                     alert("Studio: " + data['name'] + ", Countrycode: " + data['countrycode'] + ", Postcode: " + data['postcode']);
@@ -29,7 +29,7 @@
                 type: "GET",
                 dataType: "json",
                 headers: {
-                    Authorization: "Basic" + btoa("reader:123")
+                    Authorization: "Basic " + btoa("reader:123")
                 },
                 success: function (studioList) {
                     var html = "";
