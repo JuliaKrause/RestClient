@@ -13,9 +13,7 @@ import java.util.Scanner;
 /**
  * Created by Julia on 10.12.2016.
  */
-//TODO: transaction schließen / connection schließen ? / siehe Fehlermeldung,
-// TODO: wenn man direkt nacheinander z.b. hizufügt und löscht
-//TODO: "connection still allocated"
+
 public class StudioResourceClient {
 
     private static Response createStudio(WebTarget target, Studio studio) {
@@ -31,8 +29,6 @@ public class StudioResourceClient {
                 .resolveTemplate("studioId", studioId)
                 .request(MediaType.APPLICATION_JSON)
                 .get(Studio.class);
-        //Response response = target.request().get();
-        //response.close();
         return studio;
 
     }
@@ -47,7 +43,6 @@ public class StudioResourceClient {
         updResponse.close();
     }
 
-    //of course, this returns null!
     private static void deleteStudio(WebTarget target, Long studioId) {
         Studio studioDeleted = target
                 .path("/{studioId}")
@@ -79,27 +74,25 @@ public class StudioResourceClient {
             System.out.println("Studio löschen [4]");
             System.out.println("Studio-Verwaltung beenden [5]");
 
-            userEingabe = user_input.next( );
+            userEingabe = user_input.nextLine( );
 
             switch (userEingabe) {
                 case "1":
-                    //TODO: unser generated Studio hat keine Id - häh?
                     System.out.println("Studio-Id: ");
-                    String studioIdToRead = user_input.next();
+                    String studioIdToRead = user_input.nextLine();
                     Studio studio = readStudio(target, new Long(studioIdToRead));
                     System.out.println(studio.getName() + " " + studio.getCountrycode() + " " + studio.getPostcode());
                     break;
                 case "2":
-                    //TODO: Eingabe geht immer bis zum Leerzeichen, d.h. alles muss zusammengeschrieben sein
                     Studio newStudio = new Studio();
                     System.out.println("Studio Name: ");
-                    String newStudioName = user_input.next();
+                    String newStudioName = user_input.nextLine();
                     newStudio.setName(newStudioName);
                     System.out.println("Studio CountryCode: ");
-                    String newStudioCC = user_input.next();
+                    String newStudioCC = user_input.nextLine();
                     newStudio.setCountrycode(newStudioCC);
                     System.out.println("Studio PostCode: ");
-                    String newStudioPC = user_input.next();
+                    String newStudioPC = user_input.nextLine();
                     newStudio.setPostcode(newStudioPC);
                     Response createResponse = createStudio(target, newStudio);
                     System.out.println(createResponse.getLocation());
@@ -108,21 +101,21 @@ public class StudioResourceClient {
                 case "3":
                     Studio updStudio = new Studio();
                     System.out.println("Studio ID: ");
-                    String updStudioID = user_input.next();
+                    String updStudioID = user_input.nextLine();
                     System.out.println("Studio Name: ");
-                    String updStudioName = user_input.next();
+                    String updStudioName = user_input.nextLine();
                     updStudio.setName(updStudioName);
                     System.out.println("Studio CountryCode: ");
-                    String updStudioCC = user_input.next();
+                    String updStudioCC = user_input.nextLine();
                     updStudio.setCountrycode(updStudioCC);
                     System.out.println("Studio PostCode: ");
-                    String updStudioPC = user_input.next();
+                    String updStudioPC = user_input.nextLine();
                     updStudio.setPostcode(updStudioPC);
                     updateStudio(target, updStudio, new Long(updStudioID));
                     break;
                 case "4":
                     System.out.println("Studio ID: ");
-                    String delStudioID = user_input.next();
+                    String delStudioID = user_input.nextLine();
                     deleteStudio(target, new Long(delStudioID));
                     break;
                 case "5":
